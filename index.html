@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+      <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+  </head>
+  <body>
+    <script>
+   //python -m SimpleHTTPServer 3000 <-- write this in terminal for local host
+ var config = {
+   type: Phaser.AUTO,
+   width: 625,
+   height: 475,
+     }
+   },
+   scene: {
+       preload: preload,
+       create: create,
+       update: update
+   }
+};
+ var game = new Phaser.Game(config);
+ var platforms;
+ function preload ()
+ {
+   this.load.image('sky', 'assets/sky1.png');
+   this.load.image();
+   this.load.image();
+ }
+ function create ()
+ {
+   this.add.image(0,0, 'sky').setOrigin(0,0);
+   this.add.image();
+ }
+ function update ();
+ {
+ }
+   </script>
+ </body>
+</html>
+  </body>
+</html>
