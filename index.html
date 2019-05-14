@@ -29,19 +29,27 @@
    var game = new Phaser.Game(config);
    var platforms;
    var player;
+   var score = 0;
+   var scoreText;
 
    function preload ()
    {
      this.load.image('sky', 'assets/sky1.png');
      this.load.image('ground', 'assets/ground.png');
+     this.load.image('grass','assets/dry-grass-png.png');
+     this.load.image('star', 'assets/star.png'),
      //this.load.image('dude', 'assets/dude.png');{ frameWidth: 32, frameHeight: 48});
      this.load.spritesheet('dude','assets/dude.png',
      { frameWidth: 32, frameHeight: 48 });
+     this.load.image('Clouds', 'assets/Clouds.png');
+     this.load.image('Bomb', 'assets/Bomb.png');
+
    }
 
    function create ()
    {
      this.add.image(400, 300, 'sky');
+     this.add.image(499,500,'grass');
      platforms = this.physics.add.staticGroup();
 
          platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -76,7 +84,37 @@
            repeat: -1
        });
        this.physics.add.collider(player,platforms);
-     }
+
+    stars = this.physics.add.group({
+      key: 'star',
+      repeat: 11,
+      setXY: { x: 12, y: 0, stepX: 70 }
+  });
+    stars.children.iterate(function (child) {
+
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+      child.setScale(.01, .01);
+
+  });
+    this.physics.add.collider(stars, platforms);
+    this.physics.add.overlap(player, stars, collectStar, null, this);
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
+
+        function collectStar (player, star)
+      {
+        star.disableBody(true, true);
+
+        score += 10;
+        scoreText.setText('Score: ' + score);
+      }
+
+      //bombs
+}
+
+
+
+
 
    function update ()
    {
@@ -104,7 +142,8 @@ if (cursors.up.isDown && player.body.touching.down)
 {
     player.setVelocityY(-330);
 
-  }}
+}
+}
    </script>
  </body>
 </html>
