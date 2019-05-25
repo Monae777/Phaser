@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<a!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -34,22 +34,20 @@
 
    function preload ()
    {
-     this.load.image('sky', 'assets/sky1.png');
+
      this.load.image('ground', 'assets/ground.png');
-     this.load.image('grass','assets/dry-grass-png.png');
-     this.load.image('star', 'assets/star.png'),
+     this.load.image('background', 'assets/background.png');
+     this.load.image('star', 'assets/star.png');
      //this.load.image('dude', 'assets/dude.png');{ frameWidth: 32, frameHeight: 48});
-     this.load.spritesheet('dude','assets/dude.png',
+     this.load.spritesheet('Girl','assets/Girl.png',
      { frameWidth: 32, frameHeight: 48 });
-     this.load.image('Clouds', 'assets/Clouds.png');
-     this.load.image('bomb', 'assets/bomb.png');
+     this.load.image('blades', 'assets/blades.png');
 
    }
 
    function create ()
    {
-     this.add.image(400, 300, 'sky');
-     this.add.image(499,500,'grass');
+     this.add.image(400, 300, 'background');
      platforms = this.physics.add.staticGroup();
 
          platforms.create(400, 568, 'ground').setScale(4).refreshBody();
@@ -58,28 +56,27 @@
          platforms.create(100, 400, 'ground').setScale(2).refreshBody();;
          platforms.create(750, 220, 'ground');
 
+         player = this.physics.add.sprite(300, 450, 'Girl');
 
-         player = this.physics.add.sprite(300, 450, 'dude');
-
-       player.setBounce(0.2);
+       player.setBounce(0.4);
        player.setCollideWorldBounds(true);
 
        this.anims.create({
            key: 'left',
-           frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+           frames: this.anims.generateFrameNumbers('Girl', { start: 0, end: 3 }),
            frameRate: 10,
            repeat: -1
        });
 
        this.anims.create({
            key: 'turn',
-           frames: [ { key: 'dude', frame: 4 } ],
+           frames: [ { key: 'Girl', frame: 4 } ],
            frameRate: 20
        });
 
        this.anims.create({
            key: 'right',
-           frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+           frames: this.anims.generateFrameNumbers('Girl', { start: 5, end: 8 }),
            frameRate: 10,
            repeat: -1
        });
@@ -98,13 +95,12 @@
   });
     this.physics.add.collider(stars, platforms);
     this.physics.add.overlap(player, stars, collectStar, null, this);
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
+      scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     function collectStar (player, star){
-        star.disableBody(true, true);
+        stardisableBody(true, true);
 
-        score += 10;
+        score += 100;
         scoreText.setText('Score: ' + score);
 
         if (stars.countActive(true) === 0)
@@ -117,24 +113,25 @@
 
             var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-            var bomb = bombs.create(x, 16, 'bomb');
-            bomb.setBounce(1);
-            bomb.setScale(.3, .3);
-            bomb.setCollideWorldBounds(true);
-            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            var bomb = blades.create(x, 16, 'bomb');
+            blades.setBounce(1);
+            blades.setScale(.3, .3);
+            blades.setCollideWorldBounds(true);
+            blades.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
 
         }
       }
 
 
       //bombs
-      bombs = this.physics.add.group();
+      blades = this.physics.add.group();
 
-      this.physics.add.collider(bombs, platforms);
+      this.physics.add.collider(blades, platforms);
 
-      this.physics.add.collider(player, bombs, hitBomb, null, this);
+      this.physics.add.collider(player, blades, hitBlades, null, this);
 
-      function hitBomb (player, bomb)
+      function hitblades (player, blades)
         {
             this.physics.pause();
 
